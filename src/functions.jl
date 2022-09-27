@@ -170,7 +170,7 @@ end
 """
 Plot a network (must be at least processed, but solved is optional)
 """
-function plot(network::Network)
+function plot(network::Network; showaxis = true)
     if !network.processed
         error("run process!(network) first.")
     end
@@ -179,6 +179,11 @@ function plot(network::Network)
     fig = Figure(backgroundcolor = :white)
     ax = Axis3(fig[1,1],
         aspect = :data)
+    
+    if !showaxis
+        hidedecorations!(ax)
+        hidespines!(ax)
+    end
 
     # interactivity
     sg = SliderGrid(fig[2,1],
