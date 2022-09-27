@@ -1,5 +1,3 @@
-using LinearAlgebra, kjlMakie, GLMakie, Statistics
-
 set_theme!(kjl_light)
 
 """
