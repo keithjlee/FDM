@@ -20,6 +20,7 @@ begin
 end
 
 # define elements
+# this is taken from an existing example with 0-based indexing lol
 begin
     indices = [(0,3),
         (3, 4),
