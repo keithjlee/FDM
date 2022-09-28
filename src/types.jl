@@ -6,9 +6,16 @@ mutable struct Node
     y::Union{Int64, Float64}
     z::Union{Int64, Float64}
     dof::Bool # true = free; false = fixed
+    id::Union{Symbol, Nothing}
 
+    #empty constructor
+    function Node()
+        return new()
+    end
+
+    # individual coordinate basis
     function Node(x::Union{Int64, Float64}, y::Union{Int64, Float64}, z::Union{Int64, Float64}, dof::Bool)
-        return new(x, y, z, dof)
+        return new(x, y, z, dof, nothing)
     end
 
     # using a vector to represent position
@@ -16,7 +23,7 @@ mutable struct Node
         if length(pos) != 3
             error("pos should be length 3.")
         else
-            return new(pos..., dof)
+            return new(pos..., dof, nothing)
         end
     end
 end
@@ -30,9 +37,10 @@ mutable struct Element
     pEnd::Node #end point
     iEnd::Int64 #index of end point in vector of points
     q::Union{Int64, Float64} #force density
+    id::Union{Symbol, Nothing}
 
     function Element(points::Vector{Node}, iStart::Int64, iEnd::Int64, q::Union{Int64, Float64})
-        element = new(points[iStart], iStart, points[iEnd], iEnd, q)
+        element = new(points[iStart], iStart, points[iEnd], iEnd, q, nothing)
         return element
     end
 end

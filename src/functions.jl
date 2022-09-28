@@ -239,3 +239,27 @@ function plot(network::Network; showaxis = true)
 
     return fig
 end
+
+"""
+Custom indexing based on IDs of structs
+"""
+function Base.getindex(nodes::Vector{Node}, i::Symbol)
+    return [node for node in nodes if node.id == i]
+end
+
+"""
+Custom indexing for elements
+"""
+function Base.getindex(elements::Vector{Element}, i::Symbol)
+    return [element for element in elements if element.id == i]
+end
+
+"""
+Custom indexing of networks
+"""
+function Base.getindex(network::Network, i::Symbol)
+    nodes = network.nodes[i]
+    elements = network.elements[i]
+
+    return nodes, elements
+end
