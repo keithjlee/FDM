@@ -119,6 +119,25 @@ function solve!(network::Network; reprocess = false)
 end
 
 """
+Solve w/r/t q
+"""
+function solve2(network::Network, q::Union{Vector{Int64}, Vector{Float64}})
+    
+    if length(q) != length(network.elements)
+        error("q and elements must have equal length")
+    end
+
+    Q = spdiagm(q)
+
+    xyzn = Matrix(network.Cn' * Q * network.Cn) \ (network.Pn - network.Cn' * Q * network.Cf * network.xyz[network.F, :])
+
+    xyz2 = network.xyz
+    xyz2[network.N, :] = xyzn
+
+    return xyzn
+end
+
+"""
 Extracts force density vector (q) from elements
 """
 function forceDensities(elements::Vector{Element})
