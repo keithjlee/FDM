@@ -23,6 +23,9 @@ function plot(network::Network; showaxis = true)
 
     q = forceDensities(network.elements)
 
+    # normalize
+    q ./= maximum(q)
+
     linefactor = lift(sg.sliders[1].value) do v
         v .* q
     end
