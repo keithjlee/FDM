@@ -12,6 +12,7 @@ export Load
 export Network
 
 include("functions.jl")
+include("utilities.jl")
 export deconstructNode
 export process!
 export solve!
