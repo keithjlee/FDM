@@ -59,5 +59,8 @@ process!(network);
 #analyze for nodal positions
 solve!(network);
 
+#update nodal positions to network.nodes
+xyzUpdate!(network);
+
 #visualize
 networkFig = plot(network)
