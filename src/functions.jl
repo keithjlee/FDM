@@ -155,3 +155,9 @@ function branchMatrix!(network::Network)
     network.C = branchMatrix(network.elements, network.nodes)
 end
 
+"""
+∑|F|L
+"""
+function FL(network::Network)
+    return sum(norm.(eachrow(network.C * network.xyz)).^2 .* network.q)
+end

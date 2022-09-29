@@ -85,6 +85,12 @@ function memberForces(network::Network)
     return norm.(eachrow(network.C * network.xyz)) .* network.q
 end
 
+"""
+Extract member lengths
+"""
+function memberLengths(network::Network)
+    return norm.(eachrow(network.C * network.xyz))
+end
 
 """
 Custom indexing based on IDs of structs
@@ -111,9 +117,8 @@ function Base.getindex(network::Network, i::Symbol)
 end
 
 """
-findall
+findall methods for querying
 """
-
 function Base.findall(elements::Vector{Element}, i::Symbol)
     return findall([x.id == i for x in elements])
 end

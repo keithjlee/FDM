@@ -21,6 +21,8 @@ export solve!
 export forceDensities
 export dist
 export memberForces
+export memberLengths
+export FL
 export plot
 export qUpdate!
 
