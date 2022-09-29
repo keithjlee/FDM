@@ -161,3 +161,19 @@ end
 function FL(network::Network)
     return sum(norm.(eachrow(network.C * network.xyz)).^2 .* network.q)
 end
+
+"""
+update nodal positions
+"""
+function vec2node!(vec::Union{Vector{Int64}, Vector{Float64}}, node::Node)
+    node.x, node.y, node.z = vec
+end
+
+"""
+applied to network
+"""
+function xyzUpdate!(network::Network)
+    for index in network.N
+        vec2node!(network.xyz[index, :], network.nodes[index])
+    end
+end

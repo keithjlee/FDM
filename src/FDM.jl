@@ -25,5 +25,6 @@ export memberLengths
 export FL
 export plot
 export qUpdate!
+export xyzUpdate!
 
 end # module FDM
