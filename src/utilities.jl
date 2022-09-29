@@ -111,6 +111,22 @@ function Base.getindex(network::Network, i::Symbol)
 end
 
 """
+findall
+"""
+
+function Base.findall(elements::Vector{Element}, i::Symbol)
+    return findall([x.id == i for x in elements])
+end
+
+function Base.findall(nodes::Vector{Node}, i::Symbol)
+    return findall([x.id == i for x in nodes])
+end
+
+function Base.findall(network::Network, i::Symbol)
+    return findall(network.elements, i), findall(network.nodes, i)
+end
+
+"""
 Repopulate network with new q values
 """
 function qUpdate!(network::Network, q::Union{Vector{Float64}, Vector{Int64}})
