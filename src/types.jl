@@ -26,6 +26,19 @@ mutable struct Node
             return new(pos..., dof, nothing)
         end
     end
+
+    #with an id
+    function Node(x::Union{Int64, Float64}, y::Union{Int64, Float64}, z::Union{Int64, Float64}, dof::Bool, id::Symbol)
+        return new(x, y, z, dof, id)
+    end
+
+    function Node(pos::Union{Vector{Int64}, Vector{Float64}}, dof::Bool, id::Symbol)
+        if length(pos) != 3
+            error("pos should be length 3.")
+        else
+            return new(pos..., dof, id)
+        end
+    end
 end
 
 """
@@ -41,6 +54,11 @@ mutable struct Element
 
     function Element(points::Vector{Node}, iStart::Int64, iEnd::Int64, q::Union{Int64, Float64})
         element = new(points[iStart], iStart, points[iEnd], iEnd, q, nothing)
+        return element
+    end
+
+    function Element(points::Vector{Node}, iStart::Int64, iEnd::Int64, q::Union{Int64, Float64}, id::Symbol)
+        element = new(points[iStart], iStart, points[iEnd], iEnd, q, id)
         return element
     end
 end
