@@ -4,6 +4,7 @@ using LinearAlgebra
 using kjlMakie
 using GLMakie
 using Statistics
+using SparseArrays
 
 include("types.jl")
 export Node

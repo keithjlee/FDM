@@ -97,7 +97,7 @@ function process!(network::Network)
 
     #force density vector q
     forceDensities!(network)
-    network.Q = diagm(network.q)
+    network.Q = spdiagm(network.q)
 
     #load matrix P
     loadMatrix!(network)
@@ -135,7 +135,7 @@ Creates the branch-node connectivity matrix C
 function branchMatrix(elements::Vector{Element}, points::Vector{Node})
 
     #initialize
-    c = zeros(Int64, length(elements), length(points))
+    c = spzeros(Int64, length(elements), length(points))
 
     #rows = elements, columns = nodes
     for (i, element) in enumerate(elements)

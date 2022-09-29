@@ -89,12 +89,12 @@ mutable struct Network
     elements::Vector{Element} #vector of elements
     loads::Vector{Load} #vector of loads
     q::Union{Vector{Float64}, Vector{Int64}} #vector of force densities
-    Q::Union{Matrix{Float64}, Matrix{Int64}} #diagm(q)
-    C::Matrix{Int64} #branch node matrix
+    Q::Union{SparseMatrixCSC{Float64, Int64}, SparseMatrixCSC{Int64, Int64}} #diagm(q)
+    C::SparseMatrixCSC{Int64, Int64} #branch node matrix
     N::Vector{Int64} #fixed node indices
     F::Vector{Int64} #free node indices
-    Cn::Matrix{Int64} #fixed branch node matrix
-    Cf::Matrix{Int64} #free branch node matrix
+    Cn::SparseMatrixCSC{Int64, Int64} #fixed branch node matrix
+    Cf::SparseMatrixCSC{Int64, Int64} #free branch node matrix
     P::Union{Matrix{Float64}, Matrix{Int64}} #load matrix
     Pn::Union{Matrix{Float64}, Matrix{Int64}} #free node load matrix
     xyz::Union{Matrix{Int64}, Matrix{Float64}} #xyz matrix of initial positions
