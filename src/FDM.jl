@@ -5,6 +5,7 @@ using kjlMakie
 using GLMakie
 using Statistics
 using SparseArrays
+using LinearSolve
 
 include("types.jl")
 export Node

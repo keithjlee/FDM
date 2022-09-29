@@ -115,7 +115,8 @@ function solve!(network::Network; reprocess = false)
     end
 
     # solve for final free node positions
-    network.xyz[network.N, :] = (network.Cn' * network.Q * network.Cn) \ (network.Pn - network.Cn' * network.Q * network.Cf * network.xyz[network.F, :])
+
+    network.xyz[network.N, :] = Matrix(network.Cn' * network.Q * network.Cn) \ (network.Pn - network.Cn' * network.Q * network.Cf * network.xyz[network.F, :])
 end
 
 """
