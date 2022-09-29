@@ -22,5 +22,6 @@ export forceDensities
 export dist
 export memberForces
 export plot
+export qUpdate!
 
 end # module FDM

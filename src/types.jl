@@ -102,8 +102,12 @@ mutable struct Network
     # xyzf::Union{Matrix{Int64}, Matrix{Float64}} # xyz matrix of fixed positions
     processed::Bool
 
-    function Network(nodes::Vector{Node}, elements::Vector{Element}, loads::Vector{Load})
-        network = new(nodes, elements, loads)
+    function Network(nodes::Vector{Node}, elements::Vector{Element}, loads::Vector{Load}; copy = false)
+        if copy
+            network = new(deepcopy(nodes), deepcopy(elements), deepcopy(loads))
+        else
+            network = new(nodes, elements, loads)
+        end
         network.processed = false
         return network
     end
