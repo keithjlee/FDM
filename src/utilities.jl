@@ -109,3 +109,36 @@ function Base.getindex(network::Network, i::Symbol)
 
     return nodes, elements
 end
+
+"""
+Repopulate network with new q values
+"""
+function qUpdate!(network::Network, q::Union{Vector{Float64}, Vector{Int64}})
+    if length(network.elements) != length(q)
+        error("Number of elements and q must be equal.")
+    end
+
+    for (i, element) in enumerate(network.elements)
+        element.q = q[i]
+    end
+
+    forceDensities!(network)
+end
+
+#single value
+function qUpdate!(network::Network, q::Union{Float64, Int64})
+    for (i, element) in enumerate(network.elements)
+        element.q = q
+    end
+
+    forceDensities!(network)
+end
+
+#by id
+function qUpdate!(network::Network, q::Union{Float64, Int64}, id::Symbol)
+    for element in network.elements[id]
+        element.q = q
+    end
+
+    forceDensities!(network)
+end

@@ -97,7 +97,6 @@ function process!(network::Network)
 
     #force density vector q
     forceDensities!(network)
-    network.Q = spdiagm(network.q)
 
     #load matrix P
     loadMatrix!(network)
@@ -127,7 +126,9 @@ function forceDensities(elements::Vector{Element})
 end
 
 function forceDensities!(network::Network)
-    network.q = forceDensities(network.elements)
+    q = forceDensities(network.elements)
+    network.q = q
+    network.Q = spdiagm(q)
 end
 
 """
