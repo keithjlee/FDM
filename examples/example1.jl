@@ -55,7 +55,7 @@ network = Network(nodes, elements, loads)
 process!(network)
 
 #solve
-solve!(network)
+@time solve!(network)
 
 #visualize
 networkFig = plot(network)

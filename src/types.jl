@@ -49,16 +49,16 @@ mutable struct Element
     iStart::Int64 #index of start point in vector of points
     pEnd::Node #end point
     iEnd::Int64 #index of end point in vector of points
-    q::Union{Int64, Float64} #force density
+    q::Float64 #force density
     id::Union{Symbol, Nothing}
 
     function Element(points::Vector{Node}, iStart::Int64, iEnd::Int64, q::Union{Int64, Float64})
-        element = new(points[iStart], iStart, points[iEnd], iEnd, q, nothing)
+        element = new(points[iStart], iStart, points[iEnd], iEnd, Float64(q), nothing)
         return element
     end
 
     function Element(points::Vector{Node}, iStart::Int64, iEnd::Int64, q::Union{Int64, Float64}, id::Symbol)
-        element = new(points[iStart], iStart, points[iEnd], iEnd, q, id)
+        element = new(points[iStart], iStart, points[iEnd], iEnd, Float64(q), id)
         return element
     end
 end
@@ -88,8 +88,8 @@ mutable struct Network
     nodes::Vector{Node} #vector of nodes
     elements::Vector{Element} #vector of elements
     loads::Vector{Load} #vector of loads
-    q::Union{Vector{Float64}, Vector{Int64}} #vector of force densities
-    Q::Union{SparseMatrixCSC{Float64, Int64}, SparseMatrixCSC{Int64, Int64}} #diagm(q)
+    q::Vector{Float64} #vector of force densities
+    Q::SparseMatrixCSC{Float64, Int64} #diagm(q)
     C::SparseMatrixCSC{Int64, Int64} #branch node matrix
     N::Vector{Int64} #fixed node indices
     F::Vector{Int64} #free node indices
@@ -98,8 +98,6 @@ mutable struct Network
     P::Union{Matrix{Float64}, Matrix{Int64}} #load matrix
     Pn::Union{Matrix{Float64}, Matrix{Int64}} #free node load matrix
     xyz::Union{Matrix{Int64}, Matrix{Float64}} #xyz matrix of initial positions
-    # xyzn::Union{Matrix{Int64}, Matrix{Float64}} #xyz matrix of new positions
-    # xyzf::Union{Matrix{Int64}, Matrix{Float64}} # xyz matrix of fixed positions
     processed::Bool
 
     function Network(nodes::Vector{Node}, elements::Vector{Element}, loads::Vector{Load}; copy = false)
