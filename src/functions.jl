@@ -114,8 +114,11 @@ function solve!(network::Network; reprocess = false)
     end
 
     # solve for final free node positions
-
-    network.xyz[network.N, :] = (network.Cn' * network.Q * network.Cn) \ (network.Pn - network.Cn' * network.Q * network.Cf * network.xyz[network.F, :])
+    try
+        network.xyz[network.N, :] = (network.Cn' * network.Q * network.Cn) \ (network.Pn - network.Cn' * network.Q * network.Cf * network.xyz[network.F, :])
+    catch 
+        network.xyz[network.N, :] = Matrix(network.Cn' * network.Q * network.Cn) \ (network.Pn - network.Cn' * network.Q * network.Cf * network.xyz[network.F, :])
+    end
 end
 
 """
@@ -129,7 +132,7 @@ function solve2(network::Network, q::Union{Vector{Int64}, Vector{Float64}})
 
     Q = spdiagm(q)
 
-    xyzn = Matrix(network.Cn' * Q * network.Cn) \ (network.Pn - network.Cn' * Q * network.Cf * network.xyz[network.F, :])
+    xyzn = (network.Cn' * Q * network.Cn) \ (network.Pn - network.Cn' * Q * network.Cf * network.xyz[network.F, :])
 
     xyz2 = network.xyz
     xyz2[network.N, :] = xyzn
