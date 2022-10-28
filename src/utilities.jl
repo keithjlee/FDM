@@ -96,6 +96,13 @@ function memberLengths(network::Network)
 end
 
 """
+Create diagonal matrix of lengths, L
+"""
+function L(network::Network)
+    return spdiagm(memberLengths(network))
+end
+
+"""
 Custom indexing based on IDs of structs
 """
 function Base.getindex(nodes::Vector{Node}, i::Symbol)
@@ -151,7 +158,7 @@ end
 
 #single value
 function qUpdate!(network::Network, q::Union{Float64, Int64})
-    for (i, element) in enumerate(network.elements)
+    for element in network.elements
         element.q = q
     end
 
@@ -165,4 +172,11 @@ function qUpdate!(network::Network, q::Union{Float64, Int64}, id::Symbol)
     end
 
     forceDensities!(network)
+end
+
+"""
+Get initial lengths for form finding
+"""
+function intialLengths(network::Network, E::Union{Float64, Int64}, A::Union{Float64, Int64})
+    L 
 end
