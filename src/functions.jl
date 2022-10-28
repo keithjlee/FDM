@@ -119,6 +119,9 @@ function solve!(network::Network; reprocess = false)
     # catch 
     #     network.xyz[network.N, :] = Matrix(network.Cn' * network.Q * network.Cn) \ (network.Pn - network.Cn' * network.Q * network.Cf * network.xyz[network.F, :])
     # end
+
+    # update nodal positions
+    xyzUpdate!(network)
 end
 
 """
