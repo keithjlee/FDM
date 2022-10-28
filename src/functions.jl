@@ -150,6 +150,9 @@ function forceDensities(elements::Vector{Element})
     return [e.q for e in elements]
 end
 
+"""
+Extracts q from elements and populates network fields
+"""
 function forceDensities!(network::Network)
     q = forceDensities(network.elements)
     network.q = q
