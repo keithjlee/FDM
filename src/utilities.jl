@@ -98,7 +98,7 @@ end
 """
 Create diagonal matrix of lengths, L
 """
-function L(network::Network)
+function Ldiag(network::Network)
     return spdiagm(memberLengths(network))
 end
 
