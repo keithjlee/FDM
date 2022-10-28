@@ -96,13 +96,6 @@ function memberLengths(network::Network)
 end
 
 """
-Create diagonal matrix of lengths, L
-"""
-function Ldiag(network::Network)
-    return spdiagm(memberLengths(network))
-end
-
-"""
 Custom indexing based on IDs of structs
 """
 function Base.getindex(nodes::Vector{Node}, i::Symbol)
@@ -177,6 +170,12 @@ end
 """
 Get initial lengths for form finding
 """
-function intialLengths(network::Network, E::Union{Float64, Int64}, A::Union{Float64, Int64})
-    L 
+function initialLengths(network::Network, E::Union{Float64, Int64}, A::Union{Float64, Int64})
+    n = length(network.elements)
+    Id = I(n)
+    Em = E * Id
+    Am = A * Id
+    L = spdiagm(memberLengths(network))
+
+    return diag((Id + (Em * Am) \ network.Q * L) \ Id)
 end
