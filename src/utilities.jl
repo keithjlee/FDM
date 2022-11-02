@@ -190,6 +190,7 @@ function initialLengths(network::Network, E::Union{Vector{Float64}, Vector{Int64
     # make sure material property vectors are the same
     @assert n == length(E) == length(A) "E and A vectors must be equal length"
 
+    # matrix representation of components
     Id = I(n)
     Em = diagm(E)
     Am = diagm(A)
