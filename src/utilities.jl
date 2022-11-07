@@ -182,7 +182,7 @@ function initialLengths(network::Network, E::Union{Float64, Int64}, A::Union{Flo
 end
 
 """
-Initial length method for 
+Initial length method for varying section properties
 """
 function initialLengths(network::Network, E::Union{Vector{Float64}, Vector{Int64}}, A::Union{Vector{Float64}, Vector{Int64}})
     n = length(network.elements)
