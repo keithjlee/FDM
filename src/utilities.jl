@@ -66,7 +66,7 @@ function plot(network::Network; showaxis = true)
     fig[1,2] = grid!(hcat(toggles, labels), tellheight = false)
     connect!(forces.visible, toggles[1].active)
 
-    DataInspector(fig)
+    # DataInspector(fig)
     # show figure
     display(fig)
 
