@@ -198,3 +198,69 @@ function initialLengths(network::Network, E::Union{Vector{Float64}, Vector{Int64
 
     return diag((Id + (Em * Am) \ network.Q * L) \ Id)
 end
+
+"""
+Parse from FDMremote
+"""
+function FDMremoteread(file::String)
+    #read file
+    data = JSON.parsefile(file)
+
+    #extract and convert
+
+    #force densities
+    q = Float64.(data["Q"])
+
+    #nodal positions
+    x = Float64.(data["X"])
+    y = Float64.(data["Y"])
+    z = Float64.(data["Z"])
+
+    #load vectors
+    Px = Float64.(data["Px"])
+    Py = Float64.(data["Py"])
+    Pz = Float64.(data["Pz"])
+
+    I = Int64.(data["Ijulia"] .+ 1)
+    J = Int64.(data["Jjulia"] .+ 1)
+    V = Int64.(data["V"])
+
+    ne = data["Ne"]
+    nn = data["Nn"]
+
+    N = Int64.(data["Njulia"] .+ 1)
+    F = Int64.(data["Fjulia"] .+ 1)
+
+    xyz = [[i,j,k] for (i,j,k) in zip(x, y, z)]
+
+    # make nodes
+    nodes = Vector{Node}()
+    for position in xyz
+        push!(nodes, Node(position, true))
+    end
+
+    for i in F
+        nodes[i].dof = false
+    end
+
+    #make elements
+    elements = Vector{Element}()
+    for i = 1:ne
+        istart = J[2i - 1]
+        iend = J[2i]
+
+        push!(elements, Element(nodes, istart, iend, q[i]))
+    end
+
+    #make forces
+    forcevecs = [[i,j,k] for (i, j, k) in zip(Px, Py, Pz)]
+    loads = Vector{Load}()
+    for (i, force) in zip(N, forcevecs)
+        push!(loads, Load(nodes, i, force))
+    end
+
+    #create network
+    network = Network(nodes, elements, loads)
+
+    return network
+end

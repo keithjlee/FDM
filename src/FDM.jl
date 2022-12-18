@@ -12,6 +12,7 @@ export Element
 export Load
 export Network
 
+using JSON
 include("functions.jl")
 include("utilities.jl")
 export deconstructNode
