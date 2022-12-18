@@ -261,3 +261,34 @@ function FDMremoteread(file::String)
 
     return network
 end
+
+"""
+Save a network to be read by FDMremote
+"""
+function FDMremotesave(network::Network; name = "network.json", folder = "output/")
+
+    I = vcat([[i-1, i-1] for i = 1:length(network.elements)]...)
+    J = vcat([[e.istart-1, e.iend-1] for e in network.elements]...)
+    V = vcat([[-1, 1] for e in network.elements]...)
+
+    msg = Dict("Q" => network.Q,
+        "X" => network.xyz[:,1],
+        "Y" => nework.xyz[:,2],
+        "Z" => network.xyz[:,3],
+        "Px" => network.Pn[:,1],
+        "Py" => network.Pn[:2],
+        "Pz" => network.Pn[:,3],
+        "Ijulia" => I,
+        "Jjulia" => J,
+        "V" => V,
+        "Ne" => length(network.elements),
+        "Nn" => length(network.nodes),
+        "Njulia" => network.N .- 1,
+        "Fjulia" => network.F .- 1)
+
+    msg = JSON.json(msg)
+
+    open(folder * name, "w") do f
+        write(f, msg)
+    end
+end

@@ -27,5 +27,7 @@ export plot
 export qUpdate!
 export xyzUpdate!
 export initialLengths
+export FDMremoteread
+export FDMremotesave
 
 end # module FDM
