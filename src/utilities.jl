@@ -221,12 +221,9 @@ function FDMremoteread(file::String)
     Py = Float64.(data["Py"])
     Pz = Float64.(data["Pz"])
 
-    I = Int64.(data["Ijulia"] .+ 1)
     J = Int64.(data["Jjulia"] .+ 1)
-    V = Int64.(data["V"])
 
     ne = data["Ne"]
-    nn = data["Nn"]
 
     N = Int64.(data["Njulia"] .+ 1)
     F = Int64.(data["Fjulia"] .+ 1)
