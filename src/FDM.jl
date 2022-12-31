@@ -1,8 +1,8 @@
 module FDM
 
 using LinearAlgebra
-using kjlMakie
-using GLMakie
+# using kjlMakie
+# using GLMakie
 using Statistics
 using SparseArrays
 
@@ -23,7 +23,7 @@ export dist
 export memberForces
 export memberLengths
 export FL
-export plot
+# export plot
 export qUpdate!
 export xyzUpdate!
 export initialLengths

@@ -1,78 +1,78 @@
 """
 Plot a network (must be at least processed, but solved is optional)
 """
-function plot(network::Network; showaxis = true)
-    if !network.processed
-        error("run process!(network) first.")
-    end
+# function plot(network::Network; showaxis = true)
+#     if !network.processed
+#         error("run process!(network) first.")
+#     end
 
-    # initialize
-    fig = Figure(backgroundcolor = :white)
-    ax = Axis3(fig[1,1],
-        aspect = :data)
+#     # initialize
+#     fig = Figure(backgroundcolor = :white)
+#     ax = Axis3(fig[1,1],
+#         aspect = :data)
     
-    if !showaxis
-        hidedecorations!(ax)
-        hidespines!(ax)
-    end
+#     if !showaxis
+#         hidedecorations!(ax)
+#         hidespines!(ax)
+#     end
 
-    # interactivity
-    sg = SliderGrid(fig[2,1],
-        (label = "Line Scale", range = 0.1:0.1:10, startvalue = 1.),
-        (label = "Point Scale", range = 0.1:0.1:10, startvalue = 1.))
+#     # interactivity
+#     sg = SliderGrid(fig[2,1],
+#         (label = "Line Scale", range = 0.1:0.1:10, startvalue = 1.),
+#         (label = "Point Scale", range = 0.1:0.1:10, startvalue = 1.))
 
-    q = forceDensities(network.elements)
+#     q = forceDensities(network.elements)
 
-    # normalize
-    q ./= maximum(q)
+#     # normalize
+#     q ./= maximum(q)
 
-    linefactor = lift(sg.sliders[1].value) do v
-        v .* q
-    end
+#     linefactor = lift(sg.sliders[1].value) do v
+#         v .* q
+#     end
 
-    nodefactor = lift(sg.sliders[2].value) do v
-        0.1 * v
-    end
+#     nodefactor = lift(sg.sliders[2].value) do v
+#         0.1 * v
+#     end
 
-    # Nodes as primitives
-    points = Point3.(eachrow(network.xyz))
+#     # Nodes as primitives
+#     points = Point3.(eachrow(network.xyz))
 
-    # elements
-    l = vcat([[points[e.iStart], points[e.iEnd]] for e in network.elements]...)
-    lines = linesegments!(l, 
-        color = (:black, 0.75),
-        linewidth = linefactor)
+#     # elements
+#     l = vcat([[points[e.iStart], points[e.iEnd]] for e in network.elements]...)
+#     lines = linesegments!(l, 
+#         color = (:black, 0.75),
+#         linewidth = linefactor)
 
-    # node colors: black = fixed; blue = free
-    colors = [node.dof ? blue : :black for node in network.nodes]
+#     # node colors: black = fixed; blue = free
+#     colors = [node.dof ? blue : :black for node in network.nodes]
 
-    joints = meshscatter!(points,
-        color = colors,
-        markersize = nodefactor)
+#     joints = meshscatter!(points,
+#         color = colors,
+#         markersize = nodefactor)
 
-    # loads
-    arrs = Vec3.(eachrow(network.P))
-    loadLengths = norm.(arrs)
-    elemLengths = norm.(eachrow(network.C * network.xyz))
-    scaleFactor = mean(elemLengths) / maximum(loadLengths)
+#     # loads
+#     arrs = Vec3.(eachrow(network.P))
+#     loadLengths = norm.(arrs)
+#     elemLengths = norm.(eachrow(network.C * network.xyz))
+#     scaleFactor = mean(elemLengths) / maximum(loadLengths)
 
-    forces = arrows!(points, arrs .* scaleFactor,
-        color = pink)
+#     forces = arrows!(points, arrs .* scaleFactor,
+#         color = pink)
 
-    # options
-    toggles = [Toggle(fig, active = true)]
-    labels = [Label(fig, "Loads")]
+#     # options
+#     toggles = [Toggle(fig, active = true)]
+#     labels = [Label(fig, "Loads")]
 
-    fig[1,2] = grid!(hcat(toggles, labels), tellheight = false)
-    connect!(forces.visible, toggles[1].active)
+#     fig[1,2] = grid!(hcat(toggles, labels), tellheight = false)
+#     connect!(forces.visible, toggles[1].active)
 
-    # DataInspector(fig)
-    # show figure
-    display(fig)
+#     # DataInspector(fig)
+#     # show figure
+#     display(fig)
 
 
-    return fig
-end
+#     return fig
+# end
 
 """
 Euclidean distance metric for Node types
