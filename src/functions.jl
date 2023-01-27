@@ -121,7 +121,7 @@ function solve!(network::Network; reprocess = false)
 end
 
 """
-Solve w/r/t q
+Solve w/r/t q ...
 """
 function solve2(network::Network, q::Union{Vector{Int64}, Vector{Float64}})
     
