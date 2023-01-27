@@ -106,7 +106,7 @@ function process!(network::Network)
 end
 
 """
-performs the fdm analysis
+performs the fdm analysis testing
 """
 function solve!(network::Network; reprocess = false)
     if !network.processed || reprocess
